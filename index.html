@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP Risk Assessment Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f9f9f9;
+            font-size: 16px;
+            color: #444;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OWASP Risk Assessment Calculator</h1>
+        <form id="riskCalculatorForm">
+            <h2>Step 1: Identifying a Risk</h2>
+            <!-- Likelihood Factors -->
+            
+            <label for="threatAgent">Threat Agent:</label>
+            <select id="threatAgent">
+                <option value="9">Advanced Attacker</option>
+                <option value="5">Skilled Attacker</option>
+                <option value="3">Moderate Attacker</option>
+                <option value="1">Inexperienced Attacker</option>
+            </select><br>
+
+            <label for="motive">Motive:</label>
+            <select id="motive">
+                <option value="9">High Reward</option>
+                <option value="4">Possible Reward</option>
+                <option value="1">Low or No Reward</option>
+            </select><br>
+
+            <label for="opportunity">Opportunity:</label>
+            <select id="opportunity">
+                <option value="9">No Access or Resources Required</option>
+                <option value="7">Some Access or Resources Required</option>
+                <option value="4">Special Access or Resources Required</option>
+                <option value="0">Full Access or Expensive Resources Required</option>
+            </select><br>
+
+            <label for="size">Size:</label>
+            <select id="size">
+                <option value="9">Anonymous Internet Users</option>
+                <option value="6">Authenticated Users</option>
+                <option value="5">Partners</option>
+                <option value="4">Intranet Users</option>
+                <option value="2">Developers</option>
+                <option value="2">System Administrators</option>
+            </select><br>
+
+            <h2>Step 2: Factors for Estimating Likelihood</h2>
+            <!-- Vulnerability Factors -->
+            <label for="easeOfDiscovery">Ease of Discovery:</label>
+            <select id="easeOfDiscovery">
+                <option value="9">Automated Tools Available</option>
+                <option value="7">Easy</option>
+                <option value="3">Difficult</option>
+                <option value="1">Practically Impossible</option>
+            </select><br>
+
+            <label for="easeOfExploit">Ease of Exploit:</label>
+            <select id="easeOfExploit">
+                <option value="9">Automated Tools Available</option>
+                <option value="5">Easy</option>
+                <option value="3">Difficult</option>
+                <option value="1">Theoretical</option>
+            </select><br>
+
+            <label for="awareness">Awareness:</label>
+            <select id="awareness">
+                <option value="9">Public Knowledge</option>
+                <option value="6">Obvious</option>
+                <option value="4">Hidden</option>
+                <option value="1">Unknown</option>
+            </select><br>
+
+            <label for="intrusionDetection">Intrusion Detection:</label>
+            <select id="intrusionDetection">
+                <option value="9">Not Logged</option>
+                <option value="8">Logged Without Review</option>
+                <option value="3">Logged and Reviewed</option>
+                <option value="1">Active Detection in Application</option>
+            </select><br>
+
+            <h2>Step 3: Factors for Estimating Impact</h2>
+            <!-- Impact Factors -->
+            <!-- ... (Impact factor dropdowns as provided in the previous code) -->
+            <!-- Impact Factors -->
+            <label for="confidentiality">Loss of Confidentiality:</label>
+            <select id="confidentiality">
+                <option value="9">All Data Disclosed</option>
+                <option value="7">Extensive Critical Data Disclosed</option>
+                <option value="6">Extensive Non-sensitive Data Disclosed</option>
+                <option value="2">Minimal Non-sensitive Data Disclosed</option>
+            </select><br>
+
+            <label for="integrity">Loss of Integrity:</label>
+            <select id="integrity">
+                <option value="9">All Data Totally Corrupt</option>
+                <option value="7">Extensive Seriously Corrupt Data</option>
+                <option value="5">Extensive Slightly Corrupt Data</option>
+                <option value="3">Minimal Seriously Corrupt Data</option>
+                <option value="1">Minimal Slightly Corrupt Data</option>
+            </select><br>
+
+            <label for="availability">Loss of Availability:</label>
+            <select id="availability">
+                <option value="9">All Services Completely Lost</option>
+                <option value="7">Extensive Primary Services Interrupted</option>
+                <option value="5">Extensive Secondary Services Interrupted</option>
+                <option value="1">Minimal Secondary Services Interrupted</option>
+            </select><br>
+
+            <label for="accountability">Loss of Accountability:</label>
+            <select id="accountability">
+                <option value="9">Completely Anonymous</option>
+                <option value="7">Possibly Traceable</option>
+                <option value="1">Fully Traceable</option>
+            </select><br>
+
+            <h2>Step 4: Determining the Severity of the Risk</h2>
+            <p>Risk = (liklihood * impact)/9</p>
+            <p>Liklihood is estimated by finding the max value of the liklihood factors</p>
+            <p>Impact is estimated by finding the max value of the liklihood factors</p>
+            <button type="button" onclick="calculateRisk()">Calculate Risk</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateRisk() {
+            // Collect values from the form
+            const threatAgent = parseFloat(document.getElementById("threatAgent").value);
+            const motive = parseFloat(document.getElementById("motive").value);
+            const opportunity = parseFloat(document.getElementById("opportunity").value);
+            const size = parseFloat(document.getElementById("size").value);
+            const easeOfDiscovery = parseFloat(document.getElementById("easeOfDiscovery").value);
+            const easeOfExploit = parseFloat(document.getElementById("easeOfExploit").value);
+            const awareness = parseFloat(document.getElementById("awareness").value);
+            const intrusionDetection = parseFloat(document.getElementById("intrusionDetection").value);
+            const confidentiality = parseFloat(document.getElementById("confidentiality").value);
+            const integrity = parseFloat(document.getElementById("integrity").value);
+            const availability = parseFloat(document.getElementById("availability").value);
+            const accountability = parseFloat(document.getElementById("accountability").value);
+
+            // Calculate likelihood and impact
+            const likelihood = Math.max(threatAgent, motive, opportunity, size, easeOfDiscovery, easeOfExploit, awareness, intrusionDetection);
+            const impact = Math.max(confidentiality, integrity, availability, accountability);
+
+            // Calculate risk score
+            const risk = (likelihood * impact) / 9; // The scale is 0-9
+
+            // Display the result
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `<p>Risk Score: ${risk.toFixed(2)}</p>`;
+        }
+    </script>
+</body>
+</html>
